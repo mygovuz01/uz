@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hujjatni ko'rish</title>
+
+  <style>
+    :root {
+      --navy: #073763;
+      --blue: #0c8fdc;
+      --sky: #eaf7ff;
+      --green: #19a974;
+      --red: #dc2f3f;
+      --gold: #d6a84f;
+      --text: #102033;
+      --muted: #65758a;
+      --line: #d8e7f4;
+      --danger: #c92a2a;
+      --shadow: 0 24px 70px rgba(7, 55, 99, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(90deg, rgba(24, 182, 217, 0.12), transparent 34%, rgba(25, 169, 116, 0.1)),
+        linear-gradient(180deg, #f7fcff 0%, #eef8ff 48%, #f8fbff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(120deg, rgba(7, 55, 99, 0.055) 1px, transparent 1px),
+        linear-gradient(30deg, rgba(7, 55, 99, 0.04) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 78%);
+    }
+
+    .topbar {
+      width: 100%;
+      min-height: 70px;
+      background: linear-gradient(90deg, var(--navy), #075b93);
+      color: #ffffff;
+      border-bottom: 4px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      width: min(100%, 980px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .seal {
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.12);
+      flex: 0 0 auto;
+    }
+
+    .identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .flag-accent {
+      width: 54px;
+      height: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 7px;
+      background:
+        linear-gradient(180deg, #18b6d9 0 31%, #ffffff 31% 37%, var(--red) 37% 43%, #ffffff 43% 57%, var(--red) 57% 63%, #ffffff 63% 69%, var(--green) 69% 100%);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+      position: relative;
+      flex: 0 0 auto;
+      overflow: hidden;
+    }
+
+    .flag-accent::before {
+      content: "";
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      left: 8px;
+      top: 5px;
+      border: 2px solid #ffffff;
+      border-right-color: transparent;
+      border-radius: 50%;
+    }
+
+    .flag-accent::after {
+      content: "* * *";
+      position: absolute;
+      left: 24px;
+      top: 3px;
+      color: #ffffff;
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .brand-title strong,
+    .brand-title span {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-title strong {
+      font-size: 16px;
+    }
+
+    .brand-title span {
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 12px;
+    }
+
+    .official-link {
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      padding: 9px 13px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .page {
+      min-height: calc(100vh - 70px);
+      display: grid;
+      place-items: center;
+      padding: 42px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      width: min(100%, 620px);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(216, 231, 244, 0.95);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stripe {
+      height: 8px;
+      background: linear-gradient(90deg, #18b6d9 0 33%, #ffffff 33% 39%, var(--red) 39% 43%, #ffffff 43% 49%, var(--green) 49% 100%);
+    }
+
+    .content {
+      padding: 34px;
+      text-align: center;
+    }
+
+    .doc {
+      width: 92px;
+      height: 112px;
+      margin: 0 auto 24px;
+      border: 1px solid #bfd7ed;
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, transparent 0 76%, #dcefff 76%),
+        linear-gradient(180deg, #ffffff, #eef8ff);
+      box-shadow: 0 18px 34px rgba(12, 143, 220, 0.2);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .doc::before,
+    .doc::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: #c6dced;
+    }
+
+    .doc::before {
+      top: 32px;
+    }
+
+    .doc::after {
+      top: 42px;
+      right: 30px;
+    }
+
+    .doc span {
+      margin-top: 30px;
+      color: var(--navy);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .visual-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .decor-badge {
+      width: 76px;
+      height: 76px;
+      border: 1px solid #c8dfef;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 50%, #ffffff 0 28%, transparent 29%),
+        conic-gradient(from 0deg, var(--blue), var(--green), var(--gold), var(--blue));
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      box-shadow: 0 18px 34px rgba(7, 55, 99, 0.12);
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .lead {
+      max-width: 470px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .code-form {
+      display: grid;
+      gap: 12px;
+      margin-top: 26px;
+      text-align: left;
+    }
+
+    label {
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid #bad9ee;
+      border-radius: 10px;
+      padding: 0 16px;
+      color: var(--text);
+      background: #fbfdff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(12, 143, 220, 0.14);
+    }
+
+    .btn {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #12a2ed, var(--blue));
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(12, 143, 220, 0.26);
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .status.error {
+      color: var(--danger);
+    }
+
+    .status.success {
+      color: var(--green);
+    }
+
+    .notice {
+      margin-top: 24px;
+      padding: 14px 16px;
+      border: 1px solid #d9e8f4;
+      border-radius: 12px;
+      background: #fbfdff;
+      color: #536578;
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: left;
+    }
+
+    .notice strong {
+      color: var(--navy);
+    }
+
+    @media (max-width: 640px) {
+      .brand {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .official-link {
+        width: 100%;
+        text-align: center;
+      }
+
+      .page {
+        padding: 24px 14px;
+      }
+
+      .content {
+        padding: 28px 20px;
+      }
+
+      .visual-row {
+        gap: 10px;
+      }
+
+      .decor-badge {
+        width: 64px;
+        height: 64px;
+        border-radius: 14px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="identity" aria-hidden="true">
+          <div class="seal">UZ</div>
+          <div class="flag-accent"></div>
+        </div>
+        <div class="brand-title">
+          <strong>Mustaqil elektron hujjat sahifasi</strong>
+          <span>Kod orqali hujjatni yuklab olish</span>
+        </div>
+      </div>
+
+      <a class="official-link" href="https://my.gov.uz" target="_blank" rel="noopener noreferrer">
+        Rasmiy portal: my.gov.uz
+      </a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card" aria-labelledby="page-title">
+      <div class="stripe" aria-hidden="true"></div>
+
+      <div class="content">
+        <div class="visual-row" aria-hidden="true">
+          <div class="decor-badge">*</div>
+          <div class="doc">
+            <span>PDF</span>
+          </div>
+        </div>
+
+        <h1 id="page-title">Hujjat kodini kiriting</h1>
+        <p class="lead">
+          Kod to'g'ri kiritilgandan so'ng PDF hujjat yuklab olinadi
+          va sahifa avtomatik ravishda my.gov.uz portaliga o'tadi.
+        </p>
+
+        <form class="code-form" id="codeForm">
+          <label for="accessCode">Kodni kiriting</label>
+          <input
+            id="accessCode"
+            type="password"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            placeholder="Masalan: 2026"
+            required
+          >
+
+          <button class="btn" type="submit">
+            <span aria-hidden="true">&darr;</span>
+            Hujjatni yuklab olish
+          </button>
+        </form>
+
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+
+        <div class="notice">
+          <strong>Eslatma:</strong> rasmiy elektron davlat xizmatlaridan foydalanish
+          uchun faqat <strong>my.gov.uz</strong> manziliga o'ting. Ushbu sahifa
+          mustaqil yuklab olish sahifasi bo'lib, rasmiy portalning nusxasi emas.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const correctCode = "2026";
+    const pdfFile = "document.pdf";
+    const redirectUrl = "https://my.gov.uz";
+    const redirectDelayMs = 1800;
+
+    const form = document.getElementById("codeForm");
+    const input = document.getElementById("accessCode");
+    const status = document.getElementById("status");
+
+    function downloadPdf() {
+      const link = document.createElement("a");
+
+      link.href = pdfFile;
+      link.download = pdfFile;
+      link.style.display = "none";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (input.value.trim() !== correctCode) {
+        status.className = "status error";
+        status.textContent = "Kod noto'g'ri. Iltimos, qayta urinib ko'ring.";
+        input.select();
+        return;
+      }
+
+      status.className = "status success";
+      status.textContent = "Kod tasdiqlandi. PDF yuklanmoqda...";
+      downloadPdf();
+
+      window.setTimeout(function () {
+        window.location.href = redirectUrl;
+      }, redirectDelayMs);
+    });
+  </script>
+</body>
+</html>
